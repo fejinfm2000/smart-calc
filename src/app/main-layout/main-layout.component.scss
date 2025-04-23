@@ -11,21 +11,21 @@ $green: #7fe68a;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle, #8b8de0, white, white);
+    background: radial-gradient(circle at center 60%, #8b8de0, white, white);
 }
 
 .center-circle {
     position: absolute;
     width: 40vw;
     height: 40vw;
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 15rem;
+    max-height: 15rem;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
     flex-wrap: wrap;
     transform: translate(-50%, -50%);
-    top: 50%;
+    top: 60%;
     left: 50%;
     z-index: 1;
 }
@@ -61,12 +61,12 @@ $green: #7fe68a;
 
 .outer-circle {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     width: 60vw;
     height: 60vw;
-    max-width: 450px;
-    max-height: 450px;
+    max-width: 25rem;
+    max-height: 25rem;
     transform: translate(-50%, -50%);
     border-radius: 50%;
     z-index: 2;
@@ -88,4 +88,19 @@ $green: #7fe68a;
     justify-content: center;
     user-select: none;
     transform: translate(-50%, -50%);
+}
+
+.background-text {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15vw;
+    font-weight: 1000;
+    color: #bfd7ef; // light transparent color
+    z-index: 0;
+    white-space: nowrap;
+    pointer-events: none;
 }
