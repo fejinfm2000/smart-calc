@@ -4,6 +4,20 @@ $yellow: #e6c87f;
 $orange: #e6a87f;
 $green: #7fe68a;
 
+@keyframes gradientAnimation {
+    0% {
+        background: radial-gradient(circle at center 60%, #8b8de0, white, white);
+    }
+
+    50% {
+        background: radial-gradient(circle at left, #7fb3e6, white, white);
+    }
+
+    100% {
+        background: radial-gradient(circle at right, #8b8de0, white, white);
+    }
+}
+
 .container {
     position: relative;
     width: 100vw;
@@ -11,7 +25,7 @@ $green: #7fe68a;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at center 60%, #8b8de0, white, white);
+    animation: gradientAnimation 10s ease infinite;
 }
 
 .center-circle {
@@ -27,7 +41,7 @@ $green: #7fe68a;
     transform: translate(-50%, -50%);
     top: 60%;
     left: 50%;
-    z-index: 1;
+    z-index: 3;
 }
 
 .quadrant {
@@ -41,6 +55,15 @@ $green: #7fe68a;
     font-weight: 700;
     user-select: none;
     border-radius: 10px;
+    z-index: 1;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        opacity: 0.5;
+        color: black;
+    }
+
 }
 
 .blue {
@@ -88,6 +111,11 @@ $green: #7fe68a;
     justify-content: center;
     user-select: none;
     transform: translate(-50%, -50%);
+
+    &:hover {
+        opacity: 0.5;
+        color: black;
+    }
 }
 
 .background-text {
@@ -103,4 +131,18 @@ $green: #7fe68a;
     z-index: 0;
     white-space: nowrap;
     pointer-events: none;
+}
+
+
+@media (max-width: 769px) {
+    .container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: none;
+        background: radial-gradient(circle at center 60%, #8b8de0, white, white);
+    }
 }
