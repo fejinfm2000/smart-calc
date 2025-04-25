@@ -1,20 +1,19 @@
-$purple: #8b8de0;
-$blue: #7fb3e6;
-$yellow: #e6c87f;
-$orange: #e6a87f;
-$green: #7fe68a;
+$purple: #3d3f89;
+$lightgrey: #8d96a9;
+$darkblue: #3e4772;
+$green: #8d96a9;
 
 @keyframes gradientAnimation {
     0% {
-        background: radial-gradient(circle at center 60%, #8b8de0, white, white);
+        background: radial-gradient(circle at center 60%, #c7dff7, white, white);
     }
 
     50% {
-        background: radial-gradient(circle at left, #7fb3e6, white, white);
+        background: radial-gradient(circle at left, #c7dff7, white, white);
     }
 
     100% {
-        background: radial-gradient(circle at right, #8b8de0, white, white);
+        background: radial-gradient(circle at right, #c7dff7, white, white);
     }
 }
 
@@ -66,21 +65,14 @@ $green: #7fe68a;
 
 }
 
-.blue {
-    background-color: $blue;
+.lightgrey {
+    background-color: $lightgrey;
 }
 
-.yellow {
-    background-color: $yellow;
+.darkblue {
+    background-color: $darkblue;
 }
 
-.orange {
-    background-color: $orange;
-}
-
-.green {
-    background-color: $green;
-}
 
 .outer-circle {
     position: absolute;
@@ -111,11 +103,7 @@ $green: #7fe68a;
     justify-content: center;
     user-select: none;
     transform: translate(-50%, -50%);
-
-    &:hover {
-        opacity: 0.5;
-        color: black;
-    }
+    padding: .2rem;
 }
 
 .background-text {
@@ -127,7 +115,7 @@ $green: #7fe68a;
     transform: translate(-50%, -50%);
     font-size: 15vw;
     font-weight: 1000;
-    color: #bfd7ef; // light transparent color
+    color: #80878e; // light transparent color
     z-index: 0;
     white-space: nowrap;
     pointer-events: none;
@@ -143,6 +131,6 @@ $green: #7fe68a;
         align-items: center;
         justify-content: center;
         animation: none;
-        background: radial-gradient(circle at center 60%, #8b8de0, white, white);
+        background: radial-gradient(circle at center 60%, #c7dff7, white, white);
     }
 }

@@ -1,0 +1,241 @@
+.search-container {
+    margin: auto;
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.search-input {
+    width: 50%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.card-main-container {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-top: 5rem;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+.card {
+    background: #fefefe;
+    border-radius: 12px;
+
+    .card-content {
+        padding: 1rem;
+        text-align: center;
+
+        h3 {
+            margin: 0;
+            padding: 1rem;
+            font-size: 1.2rem;
+            color: #333;
+        }
+    }
+}
+
+@keyframes pulseGlow {
+    0% {
+        text-shadow: 0 0 10px #00f2ff;
+    }
+
+    50% {
+        text-shadow: 0 0 20px blueviolet;
+    }
+
+    100% {
+        text-shadow: 0 0 10px yellow;
+    }
+}
+
+.icons {
+    font-size: 100px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    color: rgb(241, 199, 199);
+
+    // animation: pulseGlow 2s infinite;
+    &:hover {
+        transform: translateY(-4px);
+        cursor: pointer;
+    }
+}
+
+.bmi-container {
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-family: Arial, sans-serif;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        input,
+        select {
+            width: 96%;
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+    }
+
+    button {
+        width: 100%;
+        padding: 0.75rem;
+        background-color: teal;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #007777;
+        }
+
+        &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+
+    h3 {
+        text-align: center;
+        margin-top: 20px;
+    }
+}
+
+.close {
+    cursor: pointer;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+}
+
+.info-item {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.bmi-normal {
+    color: #2ecc71;
+}
+
+.bmi-over {
+    color: #f1c40f;
+}
+
+.bmi-obese {
+    color: #e74c3c;
+}
+
+.mat-mdc-dialog-title {
+    // display: block;
+    position: relative;
+    /* flex-shrink: 0; */
+    box-sizing: border-box;
+    margin: 0 0 1px;
+    padding: var(--mat-dialog-headline-padding, 6px 24px 13px);
+}
+
+.bmi-title {
+    text-align: center;
+    margin-bottom: 1rem;
+
+    h4 {
+        margin: 0rem;
+        font-size: 1.4rem;
+        color: #444;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+mat-dialog-content {
+    padding: 2rem !important;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                font-weight: 500;
+                margin-bottom: 0.3rem;
+                color: #333;
+            }
+
+            input,
+            select {
+                padding: 0.5rem;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 1rem;
+            }
+
+            input:focus,
+            select:focus {
+                outline: none;
+                border-color: #4caf50;
+                box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+            }
+        }
+
+        button {
+            padding: 0.6rem 1rem;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:disabled {
+                background-color: #a5d6a7;
+                cursor: not-allowed;
+            }
+
+            &:hover:not(:disabled) {
+                background-color: #43a047;
+            }
+        }
+    }
+
+    h3 {
+        text-align: center;
+        margin-top: 1rem;
+        color: #333;
+    }
+}

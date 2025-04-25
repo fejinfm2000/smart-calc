@@ -1,0 +1,424 @@
+<div class="search-container">
+    <input type="text" [formControl]="searchControl" placeholder="Search calculators..." class="search-input" />
+
+</div>
+<div class="card-main-container">
+    <div class="card-container">
+        <div class="card" *ngFor="let item of filteredItems">
+            <div class="card-content">
+                <i [style.color]="item.color" [ngClass]=item.icon
+                    (click)="openDialog(item?.template , item.width,item.height)"></i>
+                <h3>{{ item.title }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <!--BMI Template  -->
+
+    <ng-template #bmiTemplate let-dialogRef="dialogRef" let-data="data">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Calculate Your BMI <i (click)="isInfo = !isInfo" class="fas fa-info-circle"></i></h4>
+        </div>
+
+        <mat-dialog-content>
+            <div class="info" *ngIf="isInfo">
+                <div class='bmi-under'>Underweight: BMI < 18.5</div>
+                        <div class='bmi-normal'>Normal weight: 18.5 ≤ BMI < 24.9</div>
+                                <div class='bmi-over'>Overweight: 25 ≤ BMI < 29.9</div>
+                                        <div class='bmi-obese'>Obese: BMI ≥ 30</div>
+                                </div>
+
+                                <div class="bmi-container">
+                                    <form [formGroup]="bmiForm" (ngSubmit)="calculateBMI()">
+                                        <div class="form-group">
+                                            <label for="weight">Weight (kg):</label>
+                                            <input type="number" id="weight" formControlName="weight" min="1"
+                                                step="any" />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="height">Height (cm):</label>
+                                            <input type="number" id="height" formControlName="height" min="1"
+                                                step="any" />
+                                        </div>
+
+                                        <button type="submit" [disabled]="!bmiForm.valid">Calculate</button>
+                                    </form>
+
+                                    <div *ngIf="bmi">
+                                        <h3>Your BMI: {{ bmi | number: '1.1-1' }}</h3>
+                                        <p>Status: {{ bmiStatus }}</p>
+                                    </div>
+                                </div>
+        </mat-dialog-content>
+    </ng-template>
+
+    <!--Calorie Template  -->
+    <ng-template #calorieTemplate let-dialogRef="dialogRef" let-data="data">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Calculate Your Calorie Needs <i (click)="isInfo = !isInfo" class="fas fa-info-circle close"></i></h4>
+        </div>
+
+        <mat-dialog-content>
+            <div class="info" *ngIf="isInfo">
+                <div class="info-item">Sedentary: little to no exercise</div>
+                <div class="info-item">Lightly Active: light exercise 1-3 days/week</div>
+                <div class="info-item">Moderately Active: moderate exercise 3-5 days/week</div>
+                <div class="info-item">Very Active: hard exercise 6-7 days/week</div>
+                <div class="info-item">Super Active: physical job or intense training</div>
+            </div>
+
+            <div class="bmi-container">
+                <form [formGroup]="calorieForm" (ngSubmit)="calculateCalories()">
+                    <div class="form-group">
+                        <label for="weight">Weight (kg):</label>
+                        <input type="number" id="weight" formControlName="weight" min="1" step="any" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="height">Height (cm):</label>
+                        <input type="number" id="height" formControlName="height" min="1" step="any" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age (years):</label>
+                        <input type="number" id="age" formControlName="age" min="1" step="any" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" formControlName="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="activity">Activity Level:</label>
+                        <select id="activity" formControlName="activity">
+                            <option value="1.2">Sedentary</option>
+                            <option value="1.375">Lightly Active</option>
+                            <option value="1.55">Moderately Active</option>
+                            <option value="1.725">Very Active</option>
+                            <option value="1.9">Super Active</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" [disabled]="!calorieForm.valid">Calculate</button>
+                </form>
+
+                <div *ngIf="bmr && tdee">
+                    <h3>Your BMR: {{ bmr | number: '1.1-1' }} kcal/day</h3>
+                    <p>Your TDEE: {{ tdee | number: '1.1-1' }} kcal/day</p>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+
+    <!-- Ideal Weight Template  -->
+
+    <ng-template #idealWeightTemplate let-dialogRef="dialogRef">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Calculate Your Ideal Weight</h4>
+        </div>
+
+        <mat-dialog-content>
+            <div class="bmi-container">
+
+
+                <form [formGroup]="idealWeightForm" (ngSubmit)="calculateIdealWeight()">
+                    <div class="form-group">
+                        <label for="height">Height (cm):</label>
+                        <input type="number" id="height" formControlName="height" min="1" step="any" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" formControlName="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" [disabled]="!idealWeightForm.valid">Calculate</button>
+                </form>
+
+                <div *ngIf="idealWeight">
+                    <h3>Ideal Weight: {{ idealWeight }} kg</h3>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+
+    <!-- Water Intake Template  -->
+
+    <ng-template #waterIntakeTemplate let-dialogRef="dialogRef">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Calculate Your Daily Water Intake</h4>
+        </div>
+
+        <mat-dialog-content>
+            <form [formGroup]="waterForm" (ngSubmit)="calculateWaterIntake()">
+                <div class="form-group">
+                    <label for="weight">Weight (kg):</label>
+                    <input type="number" id="weight" formControlName="weight" min="1" step="any" />
+                </div>
+
+                <div class="form-group">
+                    <label for="activityLevel">Activity Level:</label>
+                    <select id="activityLevel" formControlName="activityLevel">
+                        <option value="low">Low (sedentary)</option>
+                        <option value="moderate">Moderate (regular walking, light exercise)</option>
+                        <option value="high">High (active or daily workouts)</option>
+                    </select>
+                </div>
+
+                <button type="submit" [disabled]="!waterForm.valid">Calculate</button>
+            </form>
+
+            <div *ngIf="recommendedIntake">
+                <h3>Recommended Water Intake: {{ recommendedIntake }} L / day</h3>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+
+    <!-- Heart Rate Template  -->
+
+    <ng-template #heartRateTemplate let-dialogRef="dialogRef">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Heart Rate Zone Calculator</h4>
+        </div>
+
+        <mat-dialog-content>
+            <form [formGroup]="hrForm" (ngSubmit)="calculateZones()">
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" formControlName="age" min="1" step="1" />
+                </div>
+
+                <div class="form-group">
+                    <label for="restingHR">Resting Heart Rate (optional):</label>
+                    <input type="number" id="restingHR" formControlName="restingHR" min="30" max="100" step="1" />
+                </div>
+
+                <button type="submit" [disabled]="!hrForm.valid">Calculate</button>
+            </form>
+
+            <div *ngIf="zones">
+                <h3>Heart Rate Zones:</h3>
+                <ul *ngIf="zones">
+                    <li><strong>Zone 1 (Warm-up):</strong> {{ zones['zone1'] }} bpm</li>
+                    <li><strong>Zone 2 (Fat Burn):</strong> {{ zones['zone2'] }} bpm</li>
+                    <li><strong>Zone 3 (Cardio):</strong> {{ zones['zone3'] }} bpm</li>
+                    <li><strong>Zone 4 (Hardcore):</strong> {{ zones['zone4'] }} bpm</li>
+                    <li><strong>Zone 5 (Max Effort):</strong> {{ zones['zone5'] }} bpm</li>
+                </ul>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+
+    <!-- Ingredient Quantity Template  -->
+
+    <ng-template #ingredientCalculatorTemplate let-dialogRef="dialogRef">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Ingredient Quantity Calculator</h4>
+        </div>
+
+        <mat-dialog-content>
+            <form [formGroup]="ingredientForm" (ngSubmit)="calculateQuantities()">
+                <div class="form-group">
+                    <label for="servings">Number of Servings:</label>
+                    <input type="number" id="servings" formControlName="servings" min="1" step="1" />
+                </div>
+
+                <div class="form-group" *ngFor="let ingredient of ingredients; let i = index">
+                    <label>{{ ingredient.name }} (per serving)({{ ingredient.unit }}):</label>
+                    <input type="number" [formControlName]="'quantity' + i" min="0" step="0.01" />
+                </div>
+
+                <button type="submit" [disabled]="!ingredientForm.valid">Calculate</button>
+            </form>
+
+            <div *ngIf="calculatedIngredients?.length">
+                <h3>Total Ingredients:</h3>
+                <ul>
+                    <li *ngFor="let ing of calculatedIngredients">
+                        <strong>{{ ing.name }}:</strong> {{ ing.total }} {{ ing.unit }}
+                    </li>
+                </ul>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+
+
+    <!-- Meal Calorie Template  -->
+
+    <ng-template #mealCalorieTemplate let-dialogRef="dialogRef">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Meal Calorie Estimator</h4>
+        </div>
+
+        <mat-dialog-content>
+            <form [formGroup]="mealForm" (ngSubmit)="calculateMealCalories()">
+                <div class="form-group">
+                    <label>Rice (130 cal/unit):</label>
+                    <input type="number" formControlName="rice" min="0" step="1" />
+                </div>
+
+                <div class="form-group">
+                    <label>Chicken (165 cal/unit):</label>
+                    <input type="number" formControlName="chicken" min="0" step="1" />
+                </div>
+
+                <div class="form-group">
+                    <label>Broccoli (55 cal/unit):</label>
+                    <input type="number" formControlName="broccoli" min="0" step="1" />
+                </div>
+
+                <div class="form-group">
+                    <label>Olive Oil (119 cal/unit):</label>
+                    <input type="number" formControlName="oil" min="0" step="1" />
+                </div>
+
+                <button type="submit">Calculate</button>
+            </form>
+
+            <div *ngIf="totalCalories !== null">
+                <h3>Total Meal Calories:</h3>
+                <p>{{ totalCalories }} kcal</p>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+
+    <!-- Nutrition Split Template  -->
+
+    <ng-template #nutritionTemplate let-dialogRef="dialogRef">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Nutrition Split Calculator</h4>
+        </div>
+
+        <mat-dialog-content>
+            <div class="bmi-container">
+                <form [formGroup]="nutritionForm" (ngSubmit)="calculateNutritionSplit()">
+                    <div class="form-group">
+                        <label for="totalCalories">Total Daily Calories:</label>
+                        <input type="number" id="totalCalories" formControlName="totalCalories" min="1" step="1" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="carbsPercent">Carbs (%):</label>
+                        <input type="number" id="carbsPercent" formControlName="carbsPercent" min="0" max="100" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="proteinPercent">Protein (%):</label>
+                        <input type="number" id="proteinPercent" formControlName="proteinPercent" min="0" max="100" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fatPercent">Fat (%):</label>
+                        <input type="number" id="fatPercent" formControlName="fatPercent" min="0" max="100" />
+                    </div>
+
+                    <button type="submit" [disabled]="!nutritionForm.valid">Calculate</button>
+                </form>
+
+                <div *ngIf="macros.carbs || macros.protein || macros.fat">
+                    <h3>Macronutrient Breakdown (grams):</h3>
+                    <ul>
+                        <li><strong>Carbs:</strong> {{ macros.carbs }} g</li>
+                        <li><strong>Protein:</strong> {{ macros.protein }} g</li>
+                        <li><strong>Fat:</strong> {{ macros.fat }} g</li>
+                    </ul>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </ng-template>
+
+    <!-- Daily Calorie Template  -->
+
+    <ng-template #calorieDistributionTemplate let-dialogRef="dialogRef">
+        <mat-dialog-actions align="end">
+            <i class="fas fa-times close" (click)="close(dialogRef)"></i>
+        </mat-dialog-actions>
+
+        <div class="bmi-title">
+            <h4>Daily Calorie Distribution</h4>
+        </div>
+
+        <mat-dialog-content>
+            <div class="bmi-container">
+                <form [formGroup]="calorieDistributionForm" (ngSubmit)="calculateCalorieSplit()">
+                    <div class="form-group">
+                        <label for="totalCalories">Total Daily Calories:</label>
+                        <input type="number" id="totalCalories" formControlName="totalCalories" min="1" step="1" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="breakfastPercent">Breakfast (%):</label>
+                        <input type="number" id="breakfastPercent" formControlName="breakfastPercent" min="0"
+                            max="100" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lunchPercent">Lunch (%):</label>
+                        <input type="number" id="lunchPercent" formControlName="lunchPercent" min="0" max="100" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dinnerPercent">Dinner (%):</label>
+                        <input type="number" id="dinnerPercent" formControlName="dinnerPercent" min="0" max="100" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="snacksPercent">Snacks (%):</label>
+                        <input type="number" id="snacksPercent" formControlName="snacksPercent" min="0" max="100" />
+                    </div>
+
+                    <button type="submit" [disabled]="!calorieDistributionForm.valid">Calculate</button>
+                </form>
+
+                <div *ngIf="calorieSplit.breakfast || calorieSplit.lunch || calorieSplit.dinner || calorieSplit.snacks">
+                    <h3>Calorie Distribution (kcal):</h3>
+                    <ul>
+                        <li><strong>Breakfast:</strong> {{ calorieSplit.breakfast }} kcal</li>
+                        <li><strong>Lunch:</strong> {{ calorieSplit.lunch }} kcal</li>
+                        <li><strong>Dinner:</strong> {{ calorieSplit.dinner }} kcal</li>
+                        <li><strong>Snacks:</strong> {{ calorieSplit.snacks }} kcal</li>
+                    </ul>
+                </div>
+            </div>
+        </mat-dialog-content>
+    </ng-template>

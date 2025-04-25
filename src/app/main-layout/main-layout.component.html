@@ -3,14 +3,14 @@
         <div>Smart-Calc</div>
     </div>
     <div class="center-circle">
-        <div class="quadrant blue">×</div>
-        <div class="quadrant yellow">÷</div>
-        <div class="quadrant orange">−</div>
-        <div class="quadrant green">+</div>
+        <div class="quadrant lightgrey" (click)="pageNavigation()">×</div>
+        <div class="quadrant darkblue" (click)="pageNavigation()">÷</div>
+        <div class="quadrant darkblue" (click)="pageNavigation()">−</div>
+        <div class="quadrant lightgrey" (click)="pageNavigation()">+</div>
     </div>
     <div class="outer-circle">
-        <div class="number" *ngFor="let num of numbers; let i = index" [ngStyle]="getNumberStyle(i, numbers.length)">
-            {{ num }}
+        <div class="number" *ngFor="let item of catagory; let i = index" [ngStyle]="getNumberStyle(i, catagory.length)">
+            {{ item.title }}
         </div>
     </div>
 </div>

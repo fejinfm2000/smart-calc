@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-layout',
@@ -8,8 +9,38 @@ import { Component } from '@angular/core';
   styleUrl: './main-layout.component.scss'
 })
 export class MainLayoutComponent {
-  numbers = Array.from({ length: 8 }, (_, i) => i);
+  constructor(private router: Router) { }
 
+  catagory = [
+    {
+      path: 'food-calc',
+      title: 'Food'
+    },
+    {
+      path: 'health-care-calc',
+      title: 'Health'
+    },
+    {
+      path: 'electronics-calc',
+      title: 'Electro'
+    },
+    {
+      path: 'travel-calc',
+      title: 'Travel'
+    },
+    {
+      path: 'home-calc',
+      title: 'Home'
+    },
+    {
+      path: 'tech-calc',
+      title: 'Tech'
+    },
+    {
+      path: 'age-calc',
+      title: 'Age'
+    },
+  ]
   getNumberStyle(index: number, total: number): any {
     const angle = (360 / total) * index;
     const radiusPercent = 45; // Push further out from center
@@ -22,6 +53,10 @@ export class MainLayoutComponent {
       top: `${y}%`,
       left: `${x}%`
     };
+  }
+
+  pageNavigation(path?: string) {
+    this.router.navigateByUrl(path ? path : "/calc-home")
   }
 
 }
